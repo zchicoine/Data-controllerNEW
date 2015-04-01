@@ -4,3 +4,5 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'rspec', '~> 3.2.0'
+gem 'activerecord', '~> 4.2.1'
+gem 'pg', '~> 0.18.1'
