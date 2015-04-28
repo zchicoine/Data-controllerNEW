@@ -5,6 +5,7 @@ gemspec
 
 # for the mainDB
 gem 'activerecord', '~> 4.2.1'
+# for the postgresSQL
 gem 'pg', '~> 0.18.1'
 
 # for the recoveryDB

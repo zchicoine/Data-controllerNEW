@@ -1,1 +1,1 @@
-Access the website DB
+Access the Master Database, which is deployed on Heroku.
