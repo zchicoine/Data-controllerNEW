@@ -6,14 +6,14 @@ module DataController
             module DAL
 
                 class AbstractModel
-                    include RecoveryDBConfig
+                    include RecoveryDB::Config
 
                     class << self
                         @@table_name = ''
                         # :description connect to Aws::DynamoDB
                         # :return
                         def dynamodb
-                            @@dynamodb = RecoveryDBConfig.connect
+                            @@dynamodb = RecoveryDB::Config.connect
                         end
 
                         # :return [String] table name
