@@ -18,10 +18,10 @@ module DataController
         def successful_email(data)
             raise ArgumentError.new('emails status has to equal to succ') if data[:email][:status] != 'succ'
             connect_to_mainDb
-            broker = DataController::DB::MainDB::Broker.find_by!(email:data[:email][:from])
-            ship = DataController::DB::MainDB::Ship.find_by!(name:data[:ship_info][:ship_name])
-            port = DataController::DB::MainDB::Port.find_by!(name:data[:ship_info][:port_name])
-            shipment = DataController::DB::MainDB::Shipment.new
+            broker = DataController::DB::MainDB::DAL::Broker.find_by!(email:data[:email][:from])
+            ship = DataController::DB::MainDB::DAL::Ship.find_by!(name:data[:ship_info][:ship_name])
+            port = DataController::DB::MainDB::DAL::Port.find_by!(name:data[:ship_info][:port_name])
+            shipment = DataController::DB::MainDB::DAL::Shipment.new
             shipment.ship = ship
             shipment.port = port
             shipment.open_start_date = data[:ship_info][:open_date]
