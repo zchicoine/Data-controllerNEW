@@ -45,16 +45,16 @@ RSpec.describe DataController do
             email = {status:'fail',body:'email body testing', subject:'email subject testing', email_address:'1029384756_email_ad@testing.com',date:Time.now.to_s,from:'brokers@testing.com'}
             expect(@dataController.unsuccessful_email(email)).to eq  email
             retrieved_email = @dataController.retrieve_unsuccessful_emails_by_email_address(email[:email_address])[0]
-            DataController::DB::RecoveryDB::DAL::Email.delete(retrieved_email['Key'],email[:email_address])
+            @dataController.delete_unsuccessful_emails(retrieved_email['Key'],email[:email_address])
             expect(@dataController.retrieve_unsuccessful_emails_by_email_address(email[:email_address])).to be_nil
         end
         it 'should be saved and then archive from the recovery database, see this file for more database configuration lib/Data_Controller/db/recovery/aws_secrets.yml' do
             email = {status:'fail',body:'email body testing2', subject:'email subject testing2', email_address:'1029384756_email_ad2@testing.com',date:Time.now.to_s,from:'brokers2@testing.com'}
             expect(@dataController.unsuccessful_email(email)).to eq  email
             retrieved_email = @dataController.retrieve_unsuccessful_emails_by_email_address(email[:email_address])[0]
-            DataController::DB::RecoveryDB::DAL::Email.delete(retrieved_email['Key'],email[:email_address],true)
+            @dataController.archive_unsuccessful_emails(retrieved_email['Key'],email[:email_address])
             expect(@dataController.retrieve_unsuccessful_emails_by_email_address(email[:email_address])[0]['archive']).to be true
-            DataController::DB::RecoveryDB::DAL::Email.delete(retrieved_email['Key'],email[:email_address])
+            @dataController.delete_unsuccessful_emails(retrieved_email['Key'],email[:email_address])
         end
     end
 end

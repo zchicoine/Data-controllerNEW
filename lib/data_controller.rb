@@ -3,7 +3,7 @@ require 'logger'
 require_relative 'data_controller/version'
 require_relative '../lib/Data_Controller/db/recoveryDB/DAL/email'
 require_relative 'data_controller/email_forward'
-require_relative 'data_controller/retrieve_data'
+require_relative 'data_controller/manage_data'
 
 ###
 # ActiveRecord throw an exception when using require or require_relative
@@ -93,8 +93,8 @@ module DataController
                 include Singleton
                 include DataController::EmailForward
                 include DataController::RetrieveData
+                include DataController::DeleteData
             end.instance
         end
     end # self
-    DataController::DB::RecoveryDB::DAL::Email.delete('dsf sadf sadfasdfsadf','mo',true)
 end

@@ -19,4 +19,21 @@ module DataController
             return _emails unless _emails.blank?
         end
     end
+
+    module DeleteData
+        # :description delete an email
+        # :param [String] key of the email
+        # :param [String] email address
+        # :raise [Aws::DynamoDB::Errors::ValidationException] if no key and email match
+        def delete_unsuccessful_emails(key, email_address)
+            DataController::DB::RecoveryDB::DAL::Email.delete(key,email_address)
+        end
+        # :description archive an email
+        # :param [String] key of the email
+        # :param [String] email address
+        # :raise [Aws::DynamoDB::Errors::ValidationException] if no key and email match
+        def archive_unsuccessful_emails(key, email_address)
+            DataController::DB::RecoveryDB::DAL::Email.delete(key,email_address,true)
+        end
+    end
 end

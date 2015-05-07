@@ -17,7 +17,10 @@ Or install it yourself as:
     $ gem install Data_Controller
 
 ## Usage
-
+    # tow connect to master database you have to connect first
+    # see Configuration Database for more details
+    DataController::DB::MainDB::Config.connect
+     
     data_controller = DataController.new
     
     # :description save data passing to user database
@@ -40,16 +43,30 @@ Or install it yourself as:
     # :params [String] email address
     # :return [Hash] {TODO hash format}
     data_controller.retrieve_unsuccessful_emails_by_email_address(param)
+    
+    # :description delete an email
+    # :param [String] key of the email
+    # :param [String] email address
+    # :raise [Aws::DynamoDB::Errors::ValidationException] if no key and email match
+    data_controller.delete_unsuccessful_emails(key, email_address)
+    
+    # :description archive an email
+    # :param [String] key of the email
+    # :param [String] email address
+    # :raise [Aws::DynamoDB::Errors::ValidationException] if no key and email match
+    data_controller.archive_unsuccessful_emails(key, email_address)
+     
+    
 ---
 ## Configuration Database
     
-    # :description connect to database,
-    # to change the default configuration of database please see database.yml file
-    # :param [option Hash] configuration  
-    # {'adapter':, 'pool':, 'timeout':, 'host':, 'database':, 'username':, 'password':}
+    # :description connect to database, to change the default configuration of database please see database.yml file
+    # :param platform: ruby, jruby, etc. for now only ruby and jruby supported
+    # :param [option Hash] configuration  {'adapter':, 'pool':, 'url':, timeout':, 'host':, 'database':, 'username':, 'password':}
     # if it is not blanked then it will be used. Otherwise it will use database.yml file info
-    DataController::DB::MainDB::Config.connect(param) 
-    
+    # :raise [ActiveRecord::AdapterNotSpecified] it may raise exception while establishing a connection
+    DataController::DB::MainDB::Config.connect(params) 
+
     # :description connect to database,
     # to change the default configuration of database please see aws_secrets.yml file
     # :param [option Hash] configuration  {'region':, 'access_key_id':, 'secret_access_key':}

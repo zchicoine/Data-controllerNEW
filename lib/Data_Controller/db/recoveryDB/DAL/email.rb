@@ -33,6 +33,7 @@ module DataController
 
                         # :description delete an email or archive it
                         # :param [String] key of the email
+                        # :param [String] email address
                         # :param [Boolean] true to archive the email and not deleted
                         # :raise [Aws::DynamoDB::Errors::ValidationException] if no key and email match
                         def delete(key,email_address, archive = false)
