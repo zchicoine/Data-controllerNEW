@@ -1,9 +1,17 @@
 
 development:
-   adapter: postgresql
-   pool: 5432
-   timeout: 5000
-   host: ec2-54-83-204-244.compute-1.amazonaws.com
-   database: d3rsvispekd6lc
-   username: pogwdeaforqlbr
-   password: 32dnG9t_4HiEktN4XOrK9cxAAa
+    ruby:
+        adapter: postgresql
+        pool: 5432
+        timeout: 5000
+        host: ec2-54-83-204-244.compute-1.amazonaws.com
+        database: d3rsvispekd6lc
+        username: pogwdeaforqlbr
+        password: 32dnG9t_4HiEktN4XOrK9cxAAa
+    jruby:
+        adapter: jdbcpostgresql
+        pool: 5
+        url: jdbc:postgresql://ec2-54-83-204-244.compute-1.amazonaws.com/d3rsvispekd6lc?&ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory
+        timeout: 5000
+        username: pogwdeaforqlbr
+        password: 32dnG9t_4HiEktN4XOrK9cxAAa

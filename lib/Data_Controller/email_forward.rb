@@ -1,12 +1,6 @@
 ###
 # This module is responsible for save data to either user database or recovery database
 ###
-require_relative 'db/mainDB/DAL/broker'
-require_relative 'db/mainDB/DAL/ship'
-require_relative 'db/mainDB/DAL/port'
-require_relative 'db/mainDB/DAL/shipment'
-require_relative 'db/mainDB/mainDB_config'
-require_relative 'db/recoveryDB/DAL/email'
 module DataController
     module EmailForward
 
@@ -17,7 +11,6 @@ module DataController
         # :return if successful [param] data is returned
         def successful_email(data)
             raise ArgumentError.new('emails status has to equal to succ') if data[:email][:status] != 'succ'
-            connect_to_mainDb
             broker = DataController::DB::MainDB::DAL::Broker.find_by!(email:data[:email][:from])
             ship = DataController::DB::MainDB::DAL::Ship.find_by!(name:data[:ship_info][:ship_name])
             port = DataController::DB::MainDB::DAL::Port.find_by!(name:data[:ship_info][:port_name])
@@ -41,12 +34,6 @@ module DataController
             recovery_db = DataController::DB::RecoveryDB::DAL::Email.new(data)
             recovery_db.save
             data
-        end
-
-        private
-        # :description TODO investigate whether this function can be move some where.
-        def connect_to_mainDb
-            DataController::DB::MainDB::Config.connect
         end
     end
 end

@@ -20,4 +20,8 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency 'bundler', '~> 1.6'
   spec.add_development_dependency 'rake','~> 10.4.2'
+  spec.add_development_dependency 'pg', '~> 0.18.1'if RUBY_PLATFORM != 'java'  # the gem used for development  as Heroku is used for development,
+  spec.add_runtime_dependency 'activerecord', '~> 4.2.1'
+  spec.add_runtime_dependency 'aws-sdk', '~> 2.0.33'
+
 end

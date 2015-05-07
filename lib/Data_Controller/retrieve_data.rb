@@ -1,7 +1,6 @@
 ###
 # This module is responsible for retrieving data from either website data base or recovery database
 ###
-require_relative 'db/recoveryDB/DAL/email'
 module DataController
     module RetrieveData
 

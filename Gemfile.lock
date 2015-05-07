@@ -1,7 +1,9 @@
 PATH
   remote: .
   specs:
-    Data Controller (0.0.1)
+    Data_Controller (0.0.4)
+      activerecord (~> 4.2.1)
+      aws-sdk (~> 2.0.33)
 
 GEM
   remote: https://rubygems.org/
@@ -61,10 +63,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  Data Controller!
+  Data_Controller!
   activerecord (~> 4.2.1)
   aws-sdk (~> 2.0.33)
   bundler (~> 1.6)
   pg (~> 0.18.1)
-  rake
+  rake (~> 10.4.2)
   rspec (~> 3.2.0)

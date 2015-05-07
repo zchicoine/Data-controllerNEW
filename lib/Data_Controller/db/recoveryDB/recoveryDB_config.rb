@@ -13,7 +13,7 @@ module DataController
                     def connect(configuration = {})
                         if configuration.keys.blank?
                             # load credentials from disk
-                            creds = YAML.load(File.read('lib/Data_Controller/db/recoveryDB/aws_secrets.yml'))
+                            creds = YAML.load(File.read(File.expand_path('../aws_secrets.yml', __FILE__)))
                             Aws::DynamoDB::Client.new(
                                 region: 'us-east-1',
                                 access_key_id: creds['access_key_id'],

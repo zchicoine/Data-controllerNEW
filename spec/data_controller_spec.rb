@@ -2,6 +2,9 @@ require_relative 'spec_helper'
 
 RSpec.describe DataController do
 
+    before :all do
+        DataController::DB::MainDB::Config.connect
+    end
     before :each do
         @dataController = DataController.new
     end
