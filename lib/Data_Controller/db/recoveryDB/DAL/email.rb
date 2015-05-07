@@ -21,16 +21,39 @@ module DataController
                                                    comparison_operator: 'EQ'
                                                }
                                            }
-                            ).data
+                            ).data.items
                         end
 
                         # :return [TODO return format]
                         #   all the items and their attributes
                         #   If the total number of scanned items exceeds the maximum data set size limit of 1 MB
                         def find_all
-                            dynamodb.scan(table_name:self.table_name).data
+                            dynamodb.scan(table_name:self.table_name).data.items
                         end
-                    end
+
+                        # :description delete an email or archive it
+                        # :param [String] key of the email
+                        # :param [Boolean] true to archive the email and not deleted
+                        # :raise [Aws::DynamoDB::Errors::ValidationException] if no key and email match
+                        def delete(key,email_address, archive = false)
+                            raise ArgumentError.new('key and email address cannot be blank') if key.blank? and email_address.blank?
+                            if !archive
+                                dynamodb.delete_item( table_name: self.table_name,
+                                                      key: {'Key' => key, 'email_address' => email_address})
+                            else
+                                archive(key,email_address)
+                            end
+                        end
+
+                        private # self private
+
+                        def archive(key,email_address)
+                            dynamodb.update_item(table_name: self.table_name,
+                                                 key: {'Key' => key, 'email_address' => email_address},
+                                                 attribute_updates: {'archive' => {value: true}}
+                            )
+                        end
+                    end # self
 
                     attr_accessor :email_hash
 

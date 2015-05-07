@@ -8,7 +8,7 @@ module DataController
         # :return [Hash] {TODO hash format}
         def retrieve_unsuccessful_emails
             _emails = DataController::DB::RecoveryDB::DAL::Email.find_all
-            return _emails[0] unless _emails.blank?
+            return _emails unless _emails.blank?
         end
 
         # :description getting all the emails that have not been successfully recognized
@@ -16,7 +16,7 @@ module DataController
         # :return [Hash] {TODO hash format}
         def retrieve_unsuccessful_emails_by_email_address(email_address)
             _emails = DataController::DB::RecoveryDB::DAL::Email.find_all_by_email_address(email_address)
-            return _emails[0] unless _emails.blank?
+            return _emails unless _emails.blank?
         end
     end
 end

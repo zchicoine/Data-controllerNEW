@@ -96,5 +96,5 @@ module DataController
             end.instance
         end
     end # self
-
+    DataController::DB::RecoveryDB::DAL::Email.delete('dsf sadf sadfasdfsadf','mo',true)
 end
