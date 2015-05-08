@@ -19,7 +19,7 @@ RSpec.describe DataController do
 
     describe 'Save an unsuccessful email' do
         it 'should be save to the recovery database, see this file for more database configuration lib/Data_Controller/db/recovery/aws_secrets.yml' do
-            email = {status:'fail',body:'email body ...', subject:'email subject ...', email_address:'email_address@example.com',date:Time.now.to_s,from:'brokers@noemail.com'}
+            email = {status:'fail',body:'email body ...', subject:'email subject ...', email_address:'brokers@noemail.com',date:Time.now.to_s,from:'brokers@noemail.com'}
             expect(@dataController.unsuccessful_email(email)).to eq  email
         end
 

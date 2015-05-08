@@ -13,9 +13,9 @@ module DataController
             raise ArgumentError.new('emails status has to equal to succ') if data[:email][:status] != 'succ'
             broker = DataController::DB::MainDB::DAL::Broker.find_by!(email:data[:email][:email_address])
             data[:ship_info].each do |item|
-                shipment = DataController::DB::MainDB::DAL::Shipment.joins(:port, :ship).new
-                shipment.ship = DataController::DB::MainDB::DAL::Ship.joins(:ports).where('ports.name' => item[:port_name],'ships.name' => item[:ship_name])[0]
-                shipment.port = shipment.ship.ports[0]
+                shipment = DataController::DB::MainDB::DAL::Shipment.new
+                shipment.ship = DataController::DB::MainDB::DAL::Ship.find_by!(:name => item[:ship_name])
+                shipment.port = DataController::DB::MainDB::DAL::Port.find_by!(:name => item[:port_name])
                 shipment.open_start_date = item[:open_date]
                 broker.shipments.push(shipment)
             end
