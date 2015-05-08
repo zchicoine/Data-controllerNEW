@@ -24,7 +24,7 @@ Or install it yourself as:
     data_controller = DataController.new
     
     # :description save data passing to user database
-    # :param [Hash] {email:{status:'succ',body:,subject:,from:,etc}, 
+    # :param [Hash] {email:{status:'succ',body:,subject:,email_address:,from:,etc}, 
     #  ship_info:[{ship_name:,port_name:,open_date:},etc]}
     # :return if successful [param] data is returned
     data_controller.successful_email(param)

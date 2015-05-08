@@ -17,9 +17,7 @@ module DataController
                 ### ======================== Broker ======================== ###
                 class Broker < ActiveRecord::Base
                     # cannot create or modify exciting broker
-                    def readonly?
-                        true
-                    end
+                    validates_presence_of :username
                     # in order to get the shipments that associate to the broker
                     has_and_belongs_to_many :shipments
                 end
@@ -29,6 +27,8 @@ module DataController
                     def readonly?
                         true
                     end
+                    has_many :shipments
+                    has_many :ships, :through => :shipments, :dependent => :destroy
                 end # Port
                 ### ======================== Ship ======================== ###
                 class Ship < ActiveRecord::Base
@@ -36,6 +36,8 @@ module DataController
                     def readonly?
                         true
                     end
+                    has_many :shipments
+                    has_many :ports, :through => :shipments, :dependent => :destroy
                 end # Ship
                 ### ======================== ShipDetail ======================== ###
                 class ShipDetail < ActiveRecord::Base

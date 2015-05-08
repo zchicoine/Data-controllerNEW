@@ -11,7 +11,7 @@ RSpec.describe DataController do
 
     describe 'Save a successful email' do
         it 'should be save to the development database, see this file for more database configuration lib/Data_Controller/db/mainDB/database.yml' do
-            email = {email:{status:'succ',from:'brokers@noemail.com'},ship_info:{ship_name:'hidalga',port_name:'aarhus', open_date:Time.now.to_s}}
+            email = {email:{status:'succ',email_address:'brokers@noemail.com'},ship_info:[{ship_name:'hidalga',port_name:'aarhus', open_date:Time.now.to_s}]}
             expect(@dataController.successful_email(email)).to eq  email
         end
 
