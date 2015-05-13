@@ -1,4 +1,4 @@
 module DataController
   # '||' This took care of the warning and is a lot simpler than checking if each constant is defined
-  VERSION ||= '0.0.6'
+  VERSION ||= '0.0.7'
 end

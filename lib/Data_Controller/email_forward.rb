@@ -17,6 +17,7 @@ module DataController
                 shipment.ship = DataController::DB::MainDB::DAL::Ship.find_by!(:name => item[:ship_name])
                 shipment.port = DataController::DB::MainDB::DAL::Port.find_by!(:name => item[:port_name])
                 shipment.open_start_date = item[:open_date]
+                shipment.open_end_date = item[:open_date] # for time being
                 broker.shipments.push(shipment)
             end
             broker.save!
