@@ -3,7 +3,9 @@ require_relative 'spec_helper'
 RSpec.describe DataController do
 
     before :all do
-        DataController::DB::MainDB::Config.connect
+        raise 'connect to database before run the test'
+        # DataController::DB::MainDB::Config.connect
+        # DataController::DB::MainDB::Config.connect(:ruby,{'adapter' =>'sqlite3', 'pool' => 5, 'database' =>'/Users/moair/Documents/Dev/ship_network/Project/Ship-network/db/development.sqlite3', 'timeout' => 5000})
     end
     before :each do
         @dataController = DataController.new
@@ -11,7 +13,7 @@ RSpec.describe DataController do
 
     describe 'Save a successful email' do
         it 'should be save to the development database, see this file for more database configuration lib/Data_Controller/db/mainDB/database.yml' do
-            email = {email:{status:'succ',email_address:'brokers@noemail.com'},ship_info:[{ship_name:'hidalga',port_name:'aarhus', open_date:Time.now.to_s}]}
+            email = {email:{status:'succ',body:'body',subject:'subject',original_sender:'me@me.me',date:'2015/12/14',email_address:'brokers@noemail.com'},ship_info:[{ship_name:'hidalga',port_name:'aarhus', open_date:Time.now.to_s}]}
             expect(@dataController.successful_email(email)).to eq  email
         end
 

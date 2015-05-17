@@ -12,5 +12,6 @@ gem 'pg', '~> 0.18.1'
 gem 'aws-sdk', '~> 2.0.33'
 
 group :development, :test do
+    gem 'sqlite3','~> 1.3.10'
     gem 'rspec', '~> 3.2.0'
 end
