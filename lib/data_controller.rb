@@ -16,10 +16,12 @@ module DataController
             module DAL
                 ### ======================== Broker ======================== ###
                 class Broker < ActiveRecord::Base
-                    # cannot create or modify exciting broker
+                    #!! cannot create or modify exciting broker
+
                     validates_presence_of :username
-                    # in order to get the shipments that associate to the broker
+                    # in order to get the shipments and emails that associate to the broker
                     has_and_belongs_to_many :shipments
+                    has_many :ship_emails
                 end
                 ### ======================== Port ======================== ###
                 class Port < ActiveRecord::Base
@@ -57,6 +59,16 @@ module DataController
                     belongs_to :port
                     belongs_to :ship
                     has_and_belongs_to_many :brokers
+                    has_and_belongs_to_many :ship_emails
+                end
+                ### ======================== ShipEmail ======================== ###
+                class ShipEmail < ActiveRecord::Base
+                    validates_presence_of :broker
+                    validates_presence_of :email_body
+                    validates_presence_of :email_date
+                    validates_presence_of :email_subject
+                    belongs_to :broker
+                    has_and_belongs_to_many :shipments
                 end
 
             end # DAL
