@@ -67,10 +67,10 @@ module DataController
                         t.string :country
                         t.string :city
                         # broker status
-                        t.integer :ship_emails
-                        t.integer :personal_emails
-                        t.integer :order_emails
-                        t.integer :not_ship_emails
+                        t.integer :num_ship_emails, default:0
+                        t.integer :num_personal_emails, default:0
+                        t.integer :num_order_emails, default:0
+                        t.integer :num_not_ship_emails, default:0
                         ## Recoverable
                         t.string   :reset_password_token
                         t.datetime :reset_password_sent_at

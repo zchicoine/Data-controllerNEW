@@ -4,7 +4,7 @@ RSpec.describe DataController do
 
     before :all do
         raise 'connect to database before run the test'
-        # DataController::DB::MainDB::Config.connect
+        # DataController::DB::MainDB::Config.connect  # lib/Data_Controller/db/mainDB/database.yml
         # DataController::DB::MainDB::Config.connect(:ruby,{'adapter' =>'sqlite3', 'pool' => 5, 'database' =>'/Users/moair/Documents/Dev/ship_network/Project/Ship-network/db/development.sqlite3', 'timeout' => 5000})
     end
     before :each do
@@ -18,30 +18,26 @@ RSpec.describe DataController do
         end
 
     end
-
     describe 'Save an unsuccessful email' do
         it 'should be save to the recovery database, see this file for more database configuration lib/Data_Controller/db/recovery/aws_secrets.yml' do
             email = {status:'fail',body:'email body ...', subject:'email subject ...', email_address:'brokers@noemail.com',date:Time.now.to_s,from:'brokers@noemail.com'}
             expect(@dataController.unsuccessful_email(email)).to eq  email
         end
-
-    end
-
-    describe 'retrieve all unsuccessful email' do
-        it 'should be return all unsuccessful emails that have been saved to the recovery database, see this file for more database configuration lib/Data_Controller/db/recovery/aws_secrets.yml' do
-            email =
-            expect(@dataController.retrieve_unsuccessful_emails).not_to be_empty
-        end
-
-    end
-    describe 'Save a successful email' do
-        it 'should be save to the development database, see this file for more database configuration lib/Data_Controller/db/mainDB/database.yml' do
-            email = {status:'fail',body:'email body', subject:'email subject', email_address:'email address2',date:Time.now.to_s,from:'brokers@noemail.com'}
+        it 'should be save to the recovery database, see this file for more database configuration lib/Data_Controller/db/recovery/aws_secrets.yml' do
+            email = {status:'fail',body:'email body', subject:'email subject', email_address:'email address2',date:Time.now.to_s,from:'brokers2@noemail.com'}
             @dataController.unsuccessful_email(email)
             email_address = email[:email_address]
             expect(@dataController.retrieve_unsuccessful_emails_by_email_address(email_address)).not_to be_empty
         end
     end
+
+    describe 'retrieve all unsuccessful email' do
+        it 'should be return all unsuccessful emails that have been saved to the recovery database, see this file for more database configuration lib/Data_Controller/db/recovery/aws_secrets.yml' do
+            expect(@dataController.retrieve_unsuccessful_emails).not_to be_empty
+        end
+
+    end
+
     describe 'delete and archive an unsuccessful email' do
         it 'should be saved and then deleted from the recovery database, see this file for more database configuration lib/Data_Controller/db/recovery/aws_secrets.yml' do
             email = {status:'fail',body:'email body testing', subject:'email subject testing', email_address:'1029384756_email_ad@testing.com',date:Time.now.to_s,from:'brokers@testing.com'}
@@ -57,6 +53,21 @@ RSpec.describe DataController do
             @dataController.archive_unsuccessful_emails(retrieved_email['Key'],email[:email_address])
             expect(@dataController.retrieve_unsuccessful_emails_by_email_address(email[:email_address])[0]['archive']).to be true
             @dataController.delete_unsuccessful_emails(retrieved_email['Key'],email[:email_address])
+        end
+    end
+    describe 'Save a broker email status' do
+        it 'increment the email status of a broker' do
+            email_status = {broker_email_address:'brokers@noemail.com',ship:5,personal:12,order:2,not_ship:1}
+            result = @dataController.email_status(email_status)
+            expect(result[:broker_email_address]).to eq email_status[:broker_email_address]
+            expect(result[:ship]).to be >=  email_status[:ship]
+            expect(result[:personal]).to be >=  email_status[:personal]
+            expect(result[:order]).to be >=  email_status[:order]
+            expect(result[:not_ship]).to be >=  email_status[:not_ship]
+        end
+        it 'update the email status of a broker' do
+            email_status = {broker_email_address:'brokers@noemail.com',ship:5,personal:12,order:2,not_ship:1}
+            expect(@dataController.email_status(email_status,true)).to eq email_status
         end
     end
 end

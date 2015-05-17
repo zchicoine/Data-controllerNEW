@@ -2,7 +2,7 @@ require 'active_record'
 require 'logger'
 require_relative 'data_controller/version'
 require_relative '../lib/Data_Controller/db/recoveryDB/DAL/email'
-require_relative 'data_controller/email_forward'
+require_relative 'data_controller/save_email'
 require_relative 'data_controller/manage_data'
 
 ###
@@ -105,7 +105,8 @@ module DataController
             # Creating a Ruby Class on the fly
             Class.new do
                 include Singleton
-                include DataController::EmailForward
+                include DataController::SaveEmail
+                include DataController::SaveBrokerStatus
                 include DataController::RetrieveData
                 include DataController::DeleteData
             end.instance

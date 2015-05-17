@@ -2,7 +2,7 @@
 # This module is responsible for save data to either user database or recovery database
 ###
 module DataController
-    module EmailForward
+    module SaveEmail
 
         # :description save data passing to user database
         # :param [Hash] {email:{status:'succ',body:,subject:,original_sender:,email_address, date:, etc}, ship_info:[{ship_name:,port_name:,open_date:},etc]}
@@ -42,6 +42,37 @@ module DataController
             recovery_db = DataController::DB::RecoveryDB::DAL::Email.new(data)
             recovery_db.save
             data
+        end
+
+    end
+    module SaveBrokerStatus
+
+        # :description take information about the a broker email status
+        # :param [Hash] {broker_email_address:,ship:0,personal:0,order:0,not_ship:0}
+        # :param [Boolean] if is true broker data will be replace, otherwise increment.
+        #   For example: if a broker has 20 order email, it will be 20 + data[:order] if update == false
+        # :return [Hash] if successful new value is returned {broker_email_address:,ship:,personal:,order:,not_ship:}
+        def email_status(data,update = false)
+            broker = DataController::DB::MainDB::DAL::Broker.find_by!(email:data[:broker_email_address])
+            if update
+                broker.num_ship_emails = data[:ship]
+                broker.num_personal_emails = data[:personal]
+                broker.num_order_emails = data[:order]
+                broker.num_not_ship_emails = data[:not_ship]
+                broker.save
+            else
+                broker.num_ship_emails = broker.num_ship_emails + data[:ship]
+                broker.num_personal_emails = broker.num_personal_emails + data[:personal]
+                broker.num_order_emails = broker.num_order_emails + data[:order]
+                broker.num_not_ship_emails =  broker.num_not_ship_emails + data[:not_ship]
+                broker.save
+            end
+            return {broker_email_address:broker.email,
+                    ship:broker.num_ship_emails,
+                    personal:broker.num_personal_emails ,
+                    order:broker.num_order_emails,
+                    not_ship:broker.num_not_ship_emails
+            }
         end
     end
 end
